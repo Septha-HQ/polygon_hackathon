@@ -98,6 +98,7 @@ const Navbar = (props: Props) => {
 
             <Button
               variant="contained"
+              size="large"
               sx={{ color: "#ffffff", ml: 5, background: "#ac10af" }}
             >
               Connect Wallet
