@@ -4,7 +4,7 @@ pragma solidity ^0.8.9;
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 
 contract Transaction {
-    // AggregatorV3Interface internal priceFeed;
+    AggregatorV3Interface internal priceFeed;
     address payable public owner;
     uint public txnCount;
     mapping(string => uint256) public dollarRate; //scaled to 10^8
@@ -13,9 +13,9 @@ contract Transaction {
         owner = payable(msg.sender); //set owner
 
         // // Get MATIC/USD pricefeed from chainlink
-        // priceFeed = AggregatorV3Interface(
-        //     0xd0D5e3DB44DE05E9F294BB0a3bEEaF030DE24Ada
-        // );
+        priceFeed = AggregatorV3Interface(
+            0xd0D5e3DB44DE05E9F294BB0a3bEEaF030DE24Ada
+        );
     }
 
     enum Category {
@@ -53,9 +53,7 @@ contract Transaction {
 
     // Get latest MATIC price from chainlink
     function getMaticPrice(uint256 cost) public view returns (uint256) {
-        // (, int256 price, , , ) = priceFeed.latestRoundData();
-
-        uint256 price = 85700000;
+        (, int256 price, , , ) = priceFeed.latestRoundData();
 
         return (cost * 1e18) / uint256(price);
     }
@@ -97,7 +95,7 @@ contract Transaction {
     ) public payable {
         // requires rate of the currency to be set first
         require(dollarRate[_curr] != 0, "Currency rate not available");
-    
+
         uint256 _matic = amountToPay(_curr, _amount);
 
         Txn memory _txn;
@@ -109,13 +107,13 @@ contract Transaction {
         _txn.category = _category;
         _txn.timestamp = block.timestamp;
 
-        require(msg.value==_matic, "Transfer FAILED, value incorrect");
+        require(msg.value == _matic, "Transfer FAILED, value incorrect");
 
         addTxn(msg.sender, _txn);
     }
 
     // Get the contract balance
-    function getBalance() public view isOwner returns (uint){
+    function getBalance() public view isOwner returns (uint) {
         return address(this).balance;
     }
 
