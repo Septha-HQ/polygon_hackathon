@@ -12,7 +12,8 @@ contract Transaction {
     constructor() {
         owner = payable(msg.sender); //set owner
 
-        // // Get MATIC/USD pricefeed from chainlink
+        // Polygon Mumbai testnet
+        // Get MATIC/USD pricefeed from chainlink
         priceFeed = AggregatorV3Interface(
             0xd0D5e3DB44DE05E9F294BB0a3bEEaF030DE24Ada
         );
