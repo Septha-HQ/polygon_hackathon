@@ -6,16 +6,16 @@ import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 contract Transaction {
     AggregatorV3Interface internal priceFeed;
     address payable public owner;
-    uint256 public txnCount;
+    uint public txnCount;
     mapping(string => uint256) public dollarRate; //scaled to 10^8
 
     constructor() {
         owner = payable(msg.sender); //set owner
 
-        // Get MATIC/USD pricefeed from chainlink
-        priceFeed = AggregatorV3Interface(
-            0xd0D5e3DB44DE05E9F294BB0a3bEEaF030DE24Ada
-        );
+        // // Get MATIC/USD pricefeed from chainlink
+        // priceFeed = AggregatorV3Interface(
+        //     0xd0D5e3DB44DE05E9F294BB0a3bEEaF030DE24Ada
+        // );
     }
 
     enum Category {
@@ -42,6 +42,10 @@ contract Transaction {
         _;
     }
 
+    function getTxnCount () public view returns (uint){
+        return txnCount;
+    }
+
     /**
      * Set the dollar rate of the currency
      * To accomodate float, rate is scaled to 10^8
@@ -53,8 +57,8 @@ contract Transaction {
 
     // Get latest MATIC price from chainlink
     function getMaticPrice(uint256 cost) public view returns (uint256) {
-        (, int256 price, , , ) = priceFeed.latestRoundData();
-        // uint256 price = 85965000;
+        // (, int256 price, , , ) = priceFeed.latestRoundData();
+        uint256 price = 85965000;
 
         return (cost * 1e18) / uint256(price);
     }
