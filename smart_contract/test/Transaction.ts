@@ -57,18 +57,29 @@ describe("Transaction", function () {
   });
 
   describe("Pay with currency set", async () => {
+    let userBalance:BigNumber;
+    let matic: BigNumber;
+
     beforeEach(async () => {
+      userBalance = await user.getBalance();
       await transaction.connect(owner).setRate(NGN_SYM, NGN_RATE);
-      let matic = await transaction.connect(owner).amountToPay(NGN_SYM, AMOUNT);
+      matic = await transaction.connect(owner).amountToPay(NGN_SYM, AMOUNT);
 
       await transaction.connect(user).pay(NGN_SYM, AMOUNT, REF, CAT, {
-        value: matic 
-     })
+        value: matic
+      })
     });
 
     it("Should transfer matic equivalent", async () => {
+      const currentBalance = await user.getBalance();
+      expect(currentBalance).to.be.lessThanOrEqual(userBalance.sub(matic))
     });
-    it("Should update transactions", async () => { });
+
+    it("Should update transactions", async () => {
+      const userAccount = await transaction.connect(user).getTxn();
+      expect(userAccount.length).to.be.greaterThan(0);
+    });
+
     it("Should increment transactions count", async () => {
       const txncount = await transaction.connect(user).txnCount();
       expect(txncount).to.be.equal(1)

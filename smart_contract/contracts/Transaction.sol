@@ -42,10 +42,6 @@ contract Transaction {
         _;
     }
 
-    function getTxnCount () public view returns (uint){
-        return txnCount;
-    }
-
     /**
      * Set the dollar rate of the currency
      * To accomodate float, rate is scaled to 10^8
@@ -58,15 +54,15 @@ contract Transaction {
     // Get latest MATIC price from chainlink
     function getMaticPrice(uint256 cost) public view returns (uint256) {
         // (, int256 price, , , ) = priceFeed.latestRoundData();
-        uint256 price = 85965000;
+        uint256 price = 85700000;
 
         return (cost * 1e18) / uint256(price);
     }
 
     // Get all transcation for a particular account
-    function getTxn(address _address) public view returns (Txn[] memory) {
+    function getTxn() public view returns (Txn[] memory) {
         Txn[] memory _addressTxn;
-        _addressTxn = accountTxn[_address];
+        _addressTxn = accountTxn[msg.sender];
         return _addressTxn;
     }
 
@@ -76,12 +72,10 @@ contract Transaction {
         txnCount += 1;
     }
 
-    // Get the MATIC equivalent of the local currency
-    function amountToPay(string memory _curr, uint _amount)
-        public
-        view
-        returns (uint256)
-    {
+    function amountToPay(
+        string memory _curr,
+        uint _amount
+    ) public view returns (uint256) {
         // Scaled the amount to 10^18 and add 1% transaction fee
         uint256 _scaledAmount = ((_amount * 1e16) * 101) / 100;
 
@@ -101,10 +95,9 @@ contract Transaction {
     ) public payable {
         // requires rate of the currency to be set first
         require(dollarRate[_curr] != 0, "Currency rate not available");
-
+    
         uint256 _matic = amountToPay(_curr, _amount);
 
-        // Structure the transaction data
         Txn memory _txn;
 
         _txn.currency = _curr;
@@ -114,11 +107,8 @@ contract Transaction {
         _txn.category = _category;
         _txn.timestamp = block.timestamp;
 
-        // Pay for the transaction
-        (bool status, ) = payable(msg.sender).call{value: _matic}("");
-        require(status, "Payment FAILED");
+        require(msg.value==_matic, "Transfer FAILED, value incorrect");
 
-        // Update the transaction block
         addTxn(msg.sender, _txn);
     }
 
