@@ -3,20 +3,18 @@ import "./tasks/accounts"
 import * as dotenv from 'dotenv'
 dotenv.config()
 
-const MUMBAI_RPC_URL = process.env.MUMBAI_RPC_URL;
-const PRIVATEKEY1 = process.env.PRIVATEKEY1!;
+const POLYGON_RPC_URL = process.env.POLYGON_RPC_URL;
+const POLYGON_CHAINID = 137;
+const PRIVATEKEY = process.env.PRIVATEKEY!;
+
 
 const config: HardhatUserConfig = {
-  defaultNetwork: "hardhat",
+  defaultNetwork: "polygon",
   networks: {
-    localhost: {
-      url: "http://127.0.0.1:8545/",
-      chainId: 31337,
-    },
-    mumbai: {
-      url: MUMBAI_RPC_URL,
-      accounts: [PRIVATEKEY1],
-      chainId: 80001,
+    polygon: {
+      url: POLYGON_RPC_URL,
+      accounts: [PRIVATEKEY],
+      chainId: POLYGON_CHAINID,
     }
   },
   solidity: "0.8.17",
