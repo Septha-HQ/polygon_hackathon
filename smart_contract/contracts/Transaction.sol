@@ -13,9 +13,9 @@ contract Transaction {
         owner = payable(msg.sender); //set owner
 
         // // Get MATIC/USD pricefeed from chainlink
-        // priceFeed = AggregatorV3Interface(
-        //     0xd0D5e3DB44DE05E9F294BB0a3bEEaF030DE24Ada
-        // );
+        priceFeed = AggregatorV3Interface(
+            0xd0D5e3DB44DE05E9F294BB0a3bEEaF030DE24Ada
+        );
     }
 
     enum Category {
@@ -53,8 +53,7 @@ contract Transaction {
 
     // Get latest MATIC price from chainlink
     function getMaticPrice(uint256 cost) public view returns (uint256) {
-        // (, int256 price, , , ) = priceFeed.latestRoundData();
-        uint256 price = 85700000;
+        (, int256 price, , , ) = priceFeed.latestRoundData();
 
         return (cost * 1e18) / uint256(price);
     }
@@ -72,6 +71,7 @@ contract Transaction {
         txnCount += 1;
     }
 
+    // Get the matic equivalent of local currency
     function amountToPay(
         string memory _curr,
         uint _amount
@@ -112,6 +112,12 @@ contract Transaction {
         addTxn(msg.sender, _txn);
     }
 
+    // Get the contract balance
+    function getBalance() public view isOwner returns (uint){
+        return address(this).balance;
+    }
+
+    // Withdraw by owner
     function withdraw() public payable isOwner returns (bool) {
         (bool status, ) = payable(msg.sender).call{
             value: address(this).balance

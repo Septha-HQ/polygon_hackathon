@@ -43,21 +43,73 @@ describe("Transaction", function () {
     });
   });
 
-  describe("Pay without currency set", function () {
-    const zero: BigNumber = ethers.constants.Zero
 
-    it("Should fail if currency is not set", async () => {
-
-      await expect(transaction.connect(user).pay(NGN_SYM, AMOUNT, REF, CAT))
-        .to.be.revertedWith("Currency rate not available");
-
-      const txncount = await transaction.connect(user).txnCount();
-      expect(txncount).to.be.equal(0);
+  describe("Balance", async () => {
+    it("Should fail to view balance if not user", async () => {
+      await expect(transaction.connect(user).getBalance())
+        .to.be.revertedWith("Unauthorized")
     });
-  });
 
-  describe("Pay with currency set", async () => {
-    let userBalance:BigNumber;
+    it("Should view balance if user", async () => {
+      const balance = await transaction.connect(owner).getBalance();
+      expect(balance).to.be.equal(0)
+    });
+  })
+
+  describe("Pay", () => {
+    describe("Pay without currency set", () => {
+      const zero: BigNumber = ethers.constants.Zero
+
+      it("Should fail if currency is not set", async () => {
+
+        await expect(transaction.connect(user).pay(NGN_SYM, AMOUNT, REF, CAT))
+          .to.be.revertedWith("Currency rate not available");
+
+        const txncount = await transaction.connect(user).txnCount();
+        expect(txncount).to.be.equal(0);
+      });
+    });
+
+    describe("Pay with currency set", async () => {
+      let userBalance: BigNumber;
+      let matic: BigNumber;
+
+      beforeEach(async () => {
+        userBalance = await user.getBalance();
+        await transaction.connect(owner).setRate(NGN_SYM, NGN_RATE);
+        matic = await transaction.connect(owner).amountToPay(NGN_SYM, AMOUNT);
+
+        await transaction.connect(user).pay(NGN_SYM, AMOUNT, REF, CAT, {
+          value: matic
+        })
+      });
+
+      it("Should transfer matic equivalent", async () => {
+        const currentBalance = await user.getBalance();
+        expect(currentBalance).to.be.lessThanOrEqual(userBalance.sub(matic))
+      });
+
+      it("Should update transactions", async () => {
+        const userAccount = await transaction.connect(user).getTxn();
+        expect(userAccount.length).to.be.greaterThan(0);
+      });
+
+      it("Should increment transactions count", async () => {
+        const txncount = await transaction.connect(user).txnCount();
+        expect(txncount).to.be.equal(1)
+      });
+
+      it("Should increase balance by amount", async () => {
+        const balance = await transaction.connect(owner).getBalance();
+        expect(balance).to.be.equal(matic)
+      });
+    })
+
+  })
+
+
+  describe("Withdrawal", function () {
+    let userBalance: BigNumber;
     let matic: BigNumber;
 
     beforeEach(async () => {
@@ -70,25 +122,14 @@ describe("Transaction", function () {
       })
     });
 
-    it("Should transfer matic equivalent", async () => {
-      const currentBalance = await user.getBalance();
-      expect(currentBalance).to.be.lessThanOrEqual(userBalance.sub(matic))
+    it("Should fail to withdraw if not owner", async () => {
+      await expect(transaction.connect(user).withdraw()).to.be.revertedWith("Unauthorized")
     });
 
-    it("Should update transactions", async () => {
-      const userAccount = await transaction.connect(user).getTxn();
-      expect(userAccount.length).to.be.greaterThan(0);
-    });
+    it("Should withdraw if owner", async () => {
+      await transaction.connect(owner).withdraw();
 
-    it("Should increment transactions count", async () => {
-      const txncount = await transaction.connect(user).txnCount();
-      expect(txncount).to.be.equal(1)
+      expect(await transaction.connect(owner).getBalance()).to.be.equal(0);
     });
-  })
-
-  describe("Withdrawal", function () {
-    it("Should fail to set rate is not owner", async () => { });
-    it("Clear the contract balance", async () => { });
   });
-
 });
