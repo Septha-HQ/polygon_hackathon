@@ -22,6 +22,10 @@ const theme = createTheme({
       fontWeight: 300,
       fontSize: 16,
     },
+    body2: {
+      fontWeight: 300,
+      fontSize: 24,
+    },
   },
   components: {
     MuiButton: {
@@ -39,9 +43,62 @@ const theme = createTheme({
                 color: "#000000",
               },
             }),
+          height: 50,
         }),
       },
     },
+    MuiStepper:{
+      styleOverrides: {
+        root:{
+          "& .MuiStepLabel-label":{
+            color: "#ffffff",
+            fontSize: "28px",
+          },
+          "& .MuiStepLabel-label.Mui-active":{
+            color: "#ffffff",
+          },
+          "& .MuiStepLabel-label.Mui-completed":{
+            color: "#ffffff",
+          }
+        }
+      }
+    },
+    MuiStepIcon:{
+      styleOverrides:{
+        root:{
+          color: "#ffffff",
+          fontSize: 50,
+          marginLeft: -15,
+          "&.Mui-active":{
+            color: "#ffffff"
+          },
+        }
+      }
+    },
+    // MuiInputBase: {
+    //   styleOverrides: {
+    //     root: {
+    //       "& .MuiInputBase-input": {
+    //         // border: "1px solid rgba(255, 255, 255, 0.4)",
+    //       },
+
+    //       "& .MuiSelect-outlined": {
+    //         border: "1px solid rgba(255, 255, 255, 0.4)",
+    //       },
+    //     },
+    //   },
+    // },
+    // MuiTextField: {
+    //   styleOverrides: {
+    //     root: {
+    //       border: "1px solid rgba(255, 255, 255, 0.4)",
+    //       color: "#ffffff !important",
+    //         "& ::placeholder":{
+    //           color: "rgba(255, 255, 255, 0.4)",
+    //         }
+    //     },
+    //   },
+    // },
   },
 });
 

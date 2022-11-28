@@ -1,38 +1,77 @@
-import { Box, Button, Grid, Typography } from "@mui/material";
-import React from "react";
+import { Box, Button, Grid, Paper, Typography } from "@mui/material";
+import React, { useState } from "react";
+import CardForm from "../../components/CardForm";
+import Roadmap from "../../components/Roadmap";
+import { Txn } from "../../shared/interface";
 
 type Props = {};
 
-const Home = (props: Props) => {
-  return (
-    <Box my={35}>
-      <Grid container spacing={20}>
-        <Grid item sm={12} md={6}>
-          <Typography
-            variant="h1"
-            component="div"
-            mb={3}
-            sx={{ fontSize: 84, lineHeight: "110%" }}
-          >
-            The payment engine of Web3
-          </Typography>
-          <Typography variant="h4" component="div" mb={3} sx={{ fontSize: 32 }}>
-            Payment has never been this fun!!!
-          </Typography>
+const initialTxn = {
+  country: "",
+  provider: "",
+  reference: "",
+  amount: 0,
+};
 
-          <Button
-            variant="contained"
-            color="primary"
-            size="large"
-          >
-            Connect your wallet to get started
-          </Button>
+const Home = (props: Props) => {
+  const [txn, setTxn] = useState<Txn>(initialTxn);
+
+  return (
+    <>
+      <Box my={20}>
+        {/* Hero page */}
+        <Grid container spacing={20}>
+          <Grid item sm={12} md={6} my={5}>
+            <Typography
+              variant="h1"
+              component="div"
+              mb={3}
+              sx={{ fontSize: 84, lineHeight: "110%" }}
+            >
+              The payment engine of Web3
+            </Typography>
+            <Typography
+              variant="h4"
+              component="div"
+              mb={3}
+              sx={{ fontSize: 32 }}
+            >
+              Payment has never been this fun!!!
+            </Typography>
+
+            <Button variant="contained" color="primary" size="large">
+              Connect your wallet to get started
+            </Button>
+          </Grid>
+          <Grid item sm={12} md={6}>
+            <Paper
+              sx={{
+                minHeight: 450,
+                minWidth: 500,
+                borderRadius: "20px",
+                color: "#ffffff",
+                background: "#ffffffaa",
+              }}
+            >
+              <CardForm {...txn} />
+            </Paper>
+          </Grid>
         </Grid>
-        <Grid item sm={12} md={6}>
-          <Typography>Card</Typography>
+      </Box>
+      <Box>
+        <Typography variant="h2" component="div" mb={3} sx={{}}>
+          Project Roadmap
+        </Typography>
+
+        <Grid container spacing={20}>
+          <Grid item md={3}>
+          </Grid>
+          <Grid item sm={9}>
+            <Roadmap />
+          </Grid>
         </Grid>
-      </Grid>
-    </Box>
+      </Box>
+    </>
   );
 };
 
