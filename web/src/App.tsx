@@ -34,8 +34,8 @@ function App() {
       <Container maxWidth="xl">
         <Navbar />
         <Home />
-        <Footer />
       </Container>
+      <Footer />
     </>
   );
 }

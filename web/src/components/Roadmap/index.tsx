@@ -67,7 +67,7 @@ const Roadmap = (props: Props) => {
   };
 
   return (
-    <Box sx={{ maxWidth: 700 }}>
+    <Box sx={{ maxWidth: 700, mb: 15 }}>
       <Stepper nonLinear activeStep={activeStep} orientation="vertical">
         {steps.map((step, index) => (
           <Step key={step.label}>

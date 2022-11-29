@@ -5,6 +5,7 @@ import "./index.scss";
 import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
 
 const theme = createTheme({
+  // html:{},
   typography: {
     fontFamily: "Work Sans, sans-serif",
     h1: {
