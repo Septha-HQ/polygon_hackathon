@@ -2,6 +2,7 @@ import { Box, Button, Grid, Paper, Typography } from "@mui/material";
 import React, { useState } from "react";
 import CardForm from "../../components/CardForm";
 import Roadmap from "../../components/Roadmap";
+import Waitlist from "../../components/Waitlist";
 import { Txn } from "../../shared/interface";
 
 type Props = {};
@@ -59,17 +60,26 @@ const Home = (props: Props) => {
         </Grid>
       </Box>
       <Box>
-        <Typography variant="h2" component="div" mb={3} sx={{}}>
+        <Typography variant="h2" component="div" mb={3}>
           Project Roadmap
         </Typography>
 
         <Grid container spacing={20}>
-          <Grid item md={3}>
-          </Grid>
+          <Grid item md={3}></Grid>
           <Grid item sm={9}>
             <Roadmap />
           </Grid>
         </Grid>
+      </Box>
+      <Box
+        sx={{
+          background: "rgba(37, 40, 62, 0.8)",
+          py: 10,
+          mb: 15,
+          borderRadius: 5,
+        }}
+      >
+        <Waitlist />
       </Box>
     </>
   );
