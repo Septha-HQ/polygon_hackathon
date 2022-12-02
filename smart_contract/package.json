@@ -20,6 +20,8 @@
   },
   "dependencies": {
     "@chainlink/contracts": "^0.5.1",
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.0.3",
+    "ganache-cli": "^6.12.2",
+    "solidity-coverage": "^0.8.2"
   }
 }

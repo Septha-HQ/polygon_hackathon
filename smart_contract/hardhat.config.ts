@@ -1,6 +1,7 @@
 import { HardhatUserConfig } from "hardhat/config";
-import "./tasks/accounts"
-import * as dotenv from 'dotenv'
+import "solidity-coverage";
+import "./tasks/accounts";
+import * as dotenv from 'dotenv';
 dotenv.config()
 
 const MUMBAI_RPC_URL = process.env.MUMBAI_RPC_URL;
