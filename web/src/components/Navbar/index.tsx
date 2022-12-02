@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
@@ -12,7 +11,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { Container } from "@mui/material";
+
+import logo from "../../assets/septha.png";
 
 interface Props {
   window?: () => Window;
@@ -36,9 +36,10 @@ const Navbar = (props: Props) => {
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-      <Typography variant="h6" sx={{ my: 2 }}>
-        Septha
-      </Typography>
+      <Box sx={{ my: 2 }}>
+        <img src={logo} alt="septha logo" style={{ height: "50px" }} />
+      </Box>
+
       <Divider />
       <List>
         {navItems.map((item) => (
@@ -62,49 +63,42 @@ const Navbar = (props: Props) => {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{}}>
+    <Box sx={{mt:3}}>
       {/* <Container maxWidth="xl"> */}
-        <Toolbar sx={{}}>
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{ display: { xs: "block", sm: "none" } }}
-          >
-            Septha
-          </Typography>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ ml: "auto", display: { sm: "none" } }}
-          >
-            <MenuIcon />
-          </IconButton>
+      <Toolbar sx={{}}>
+        <Box sx={{ display: { xs: "block", sm: "none" } }}>
+          <img src={logo} alt="septha logo" style={{ height: "50px" }} />
+        </Box>
 
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
-          >
-            Septha
-          </Typography>
-          <Box sx={{ display: { xs: "none", sm: "block" } }}>
-            {navItems.map((item) => (
-              <Button key={item.key} sx={{ color: "#fff", ml: 5 }}>
-                {item.name}
-              </Button>
-            ))}
+        <IconButton
+          color="inherit"
+          aria-label="open drawer"
+          edge="start"
+          onClick={handleDrawerToggle}
+          sx={{ ml: "auto", display: { sm: "none" } }}
+        >
+          <MenuIcon />
+        </IconButton>
 
-            <Button
-              variant="contained"
-              size="large"
-              sx={{ color: "#ffffff", ml: 5, background: "#ac10af" }}
-            >
-              Connect Wallet
+        <Box sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}>
+          <img src={logo} alt="septha logo" style={{ height: "50px" }} />
+        </Box>
+        <Box sx={{ display: { xs: "none", sm: "block" } }}>
+          {navItems.map((item) => (
+            <Button key={item.key} sx={{ color: "#fff", ml: 5 }}>
+              {item.name}
             </Button>
-          </Box>
-        </Toolbar>
+          ))}
+
+          <Button
+            variant="contained"
+            size="large"
+            sx={{ color: "#ffffff", ml: 5, background: "#ac10af" }}
+          >
+            Connect Wallet
+          </Button>
+        </Box>
+      </Toolbar>
       <Box component="nav">
         <Drawer
           container={container}

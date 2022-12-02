@@ -22,7 +22,7 @@ const Home = (props: Props) => {
       <Box my={20}>
         {/* Hero page */}
         <Grid container spacing={20}>
-          <Grid item sm={12} md={6} my={5}>
+          <Grid item sm={12} md={6} sx={{my:{lg:5, xs:0}}}>
             <Typography
               variant="h1"
               component="div"
@@ -47,11 +47,12 @@ const Home = (props: Props) => {
           <Grid item sm={12} md={6}>
             <Paper
               sx={{
-                minHeight: 450,
-                minWidth: 500,
+                maxHeight: 450,
+                maxWidth: 500,
                 borderRadius: "20px",
                 color: "#ffffff",
                 background: "#ffffffaa",
+                p:7
               }}
             >
               <CardForm {...txn} />

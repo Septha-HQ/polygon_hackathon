@@ -24,7 +24,7 @@ const CardForm = (txn: Txn) => {
   const handleTxn = () => {};
   return (
     <Box>
-      <Grid container spacing={2} p={7}>
+      <Grid container spacing={2}>
         <Grid item sm={12}>
           <FormControl fullWidth>
             <InputLabel id="country-label">Country</InputLabel>
