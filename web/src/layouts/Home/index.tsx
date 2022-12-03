@@ -1,11 +1,15 @@
+import React, { useContext, useEffect, useState } from "react";
+import { TxnContext } from "../../context/TransactionContext";
+import { Txn } from "../../shared/interface";
 import { Box, Button, Grid, Paper, Typography } from "@mui/material";
-import React, { useState } from "react";
 import CardForm from "../../components/CardForm";
 import Roadmap from "../../components/Roadmap";
 import Waitlist from "../../components/Waitlist";
-import { Txn } from "../../shared/interface";
+import HomeIntro from "../../components/HomeIntro";
 
 type Props = {};
+
+const MUMBAI_CHAIN_ID = 80001;
 
 const initialTxn = {
   country: "",
@@ -14,35 +18,41 @@ const initialTxn = {
   amount: 0,
 };
 
+const hashWalletAddress = (address: string) => {
+  const first4 = address.slice(0, 7);
+  const last4 = address.slice(address.length - 4, address.length);
+
+  return `${first4}...${last4}`;
+};
+
 const Home = (props: Props) => {
   const [txn, setTxn] = useState<Txn>(initialTxn);
 
+  const { isCurrentNetwork, chainId, connectedAccount, connectWallet } =
+    useContext(TxnContext)!;
+
+  useEffect(() => {
+    console.log(chainId);
+  }, [chainId]);
+
   return (
     <>
-      <Box my={20}>
+      <Typography
+        variant="body1"
+        component="div"
+        sx={{ float: "right", mr: 4 }}
+      >
+        {connectedAccount
+          ? chainId === MUMBAI_CHAIN_ID
+            ? hashWalletAddress(connectedAccount)
+            : "You are not on the Mumbai testnet"
+          : "Connect your wallet to Mumbai testnet on the Polygon network"}
+      </Typography>
+      <Box my={0}>
         {/* Hero page */}
         <Grid container spacing={20}>
-          <Grid item sm={12} md={6} sx={{my:{lg:5, xs:0}}}>
-            <Typography
-              variant="h1"
-              component="div"
-              mb={3}
-              sx={{ fontSize: 84, lineHeight: "110%" }}
-            >
-              The payment engine of Web3
-            </Typography>
-            <Typography
-              variant="h4"
-              component="div"
-              mb={3}
-              sx={{ fontSize: 32 }}
-            >
-              Payment has never been this fun!!!
-            </Typography>
-
-            <Button variant="contained" color="primary" size="large">
-              Connect your wallet to get started
-            </Button>
+          <Grid item sm={12} md={6} sx={{ my: { lg: 5, xs: 0 }, pt: 0 }}>
+            {isCurrentNetwork?"":<HomeIntro />}
           </Grid>
           <Grid item sm={12} md={6}>
             <Paper
@@ -52,7 +62,7 @@ const Home = (props: Props) => {
                 borderRadius: "20px",
                 color: "#ffffff",
                 background: "#ffffffaa",
-                p:7
+                p: 7,
               }}
             >
               <CardForm {...txn} />
@@ -60,7 +70,7 @@ const Home = (props: Props) => {
           </Grid>
         </Grid>
       </Box>
-      <Box>
+      <Box mt={20}>
         <Typography variant="h2" component="div" mb={3}>
           Project Roadmap
         </Typography>

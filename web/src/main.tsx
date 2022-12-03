@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.scss";
 import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
+import { TxnProvider } from "./context/TransactionContext";
 
 const theme = createTheme({
   // html:{},
@@ -45,36 +46,37 @@ const theme = createTheme({
               },
             }),
           height: 50,
+          "&.Mui-disabled": { background: "#777777", color: "#ffffff" },
         }),
       },
     },
-    MuiStepper:{
+    MuiStepper: {
       styleOverrides: {
-        root:{
-          "& .MuiStepLabel-label":{
+        root: {
+          "& .MuiStepLabel-label": {
             color: "#ffffff",
             fontSize: "28px",
           },
-          "& .MuiStepLabel-label.Mui-active":{
+          "& .MuiStepLabel-label.Mui-active": {
             color: "#ffffff",
           },
-          "& .MuiStepLabel-label.Mui-completed":{
+          "& .MuiStepLabel-label.Mui-completed": {
             color: "#ffffff",
-          }
-        }
-      }
+          },
+        },
+      },
     },
-    MuiStepIcon:{
-      styleOverrides:{
-        root:{
+    MuiStepIcon: {
+      styleOverrides: {
+        root: {
           color: "#ffffff",
           fontSize: 50,
           marginLeft: -15,
-          "&.Mui-active":{
-            color: "#ffffff"
+          "&.Mui-active": {
+            color: "#ffffff",
           },
-        }
-      }
+        },
+      },
     },
     // MuiInputBase: {
     //   styleOverrides: {
@@ -104,9 +106,11 @@ const theme = createTheme({
 });
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <App />
-    </ThemeProvider>
-  </React.StrictMode>
+  <TxnProvider>
+    <React.StrictMode>
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
+    </React.StrictMode>
+  </TxnProvider>
 );

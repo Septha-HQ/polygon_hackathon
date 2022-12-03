@@ -8,5 +8,6 @@
 
 import abi from "./Transaction.json";
 
+
 export const contractABI = abi.abi;
-export const contractAddress = process.env.CONTRACT_ADDRESS;
+export const contractAddress = "0x5fbdb2315678afecb367f032d93f642f64180aa3";

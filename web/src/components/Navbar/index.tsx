@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { TxnContext } from "../../context/TransactionContext";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
@@ -11,12 +12,13 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-
 import logo from "../../assets/septha.png";
 
 interface Props {
   window?: () => Window;
 }
+
+const MUMBAI_CHAIN_ID = 80001;
 
 const drawerWidth = 240;
 // const navItems = ["Verify", "Contact Us", "Connect Wallet"];
@@ -27,6 +29,8 @@ const navItems = [
 ];
 
 const Navbar = (props: Props) => {
+  const { isCurrentNetwork, connectWallet, disconnectWallet } =
+    useContext(TxnContext)!;
   const { window } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -63,7 +67,7 @@ const Navbar = (props: Props) => {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{mt:3}}>
+    <Box sx={{ mt: 3 }}>
       {/* <Container maxWidth="xl"> */}
       <Toolbar sx={{}}>
         <Box sx={{ display: { xs: "block", sm: "none" } }}>
@@ -90,13 +94,25 @@ const Navbar = (props: Props) => {
             </Button>
           ))}
 
-          <Button
-            variant="contained"
-            size="large"
-            sx={{ color: "#ffffff", ml: 5, background: "#ac10af" }}
-          >
-            Connect Wallet
-          </Button>
+          {!isCurrentNetwork ? (
+            <Button
+              variant="contained"
+              size="large"
+              sx={{ color: "#ffffff", ml: 5, background: "#ac10af" }}
+              onClick={connectWallet}
+            >
+              Connect Wallet
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              size="large"
+              sx={{ color: "#ffffff", ml: 5, background: "#777777" }}
+              onClick={disconnectWallet}
+            >
+              Disconnect Wallet
+            </Button>
+          )}
         </Box>
       </Toolbar>
       <Box component="nav">
