@@ -12,7 +12,11 @@ contract Transaction {
     constructor() {
         owner = payable(msg.sender); //set owner
 
+<<<<<<< HEAD
         // Polygon Mainnet
+=======
+        // Polygon Mumbai testnet
+>>>>>>> staging-mumbai
         // Get MATIC/USD pricefeed from chainlink
         priceFeed = AggregatorV3Interface(
             0xAB594600376Ec9fD91F8e885dADF0CE036862dE0
@@ -96,7 +100,7 @@ contract Transaction {
     ) public payable {
         // requires rate of the currency to be set first
         require(dollarRate[_curr] != 0, "Currency rate not available");
-    
+
         uint256 _matic = amountToPay(_curr, _amount);
 
         Txn memory _txn;
@@ -108,13 +112,13 @@ contract Transaction {
         _txn.category = _category;
         _txn.timestamp = block.timestamp;
 
-        require(msg.value==_matic, "Transfer FAILED, value incorrect");
+        require(msg.value == _matic, "Transfer FAILED, value incorrect");
 
         addTxn(msg.sender, _txn);
     }
 
     // Get the contract balance
-    function getBalance() public view isOwner returns (uint){
+    function getBalance() public view isOwner returns (uint) {
         return address(this).balance;
     }
 
