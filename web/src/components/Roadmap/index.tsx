@@ -10,47 +10,35 @@ import Typography from "@mui/material/Typography";
 
 const steps = [
   {
-    label: "Q4-2022, Recharge card",
-    description: `Lorem ipsum dolor sit amet consectetur. At enim eleifend curabitur 
-    bibendum dignissim vulputate at ac sed. Porta ultrices id magna 
-    egestas amet sit id ac at. Morbi condimentum purus urna felis. 
-    Eget turpis rhoncus varius in ac malesuada enim natoque. .`,
+    label: "Q1-2023, Recharge card",
+    description: `This is our starting point. The recharge feature will enable 
+    users to quickly recharge their phones with their crypto assets. And we will
+     be launching in Nigeria and Ghana`,
   },
   {
-    label: "Q1-2023, Gift card and utility bills",
-    description: `Lorem ipsum dolor sit amet consectetur. At enim eleifend curabitur 
-      bibendum dignissim vulputate at ac sed. Porta ultrices id magna 
-      egestas amet sit id ac at. Morbi condimentum purus urna felis. 
-      Eget turpis rhoncus varius in ac malesuada enim natoque. `,
+    label: "Q2-2023, Gift card and utility bills",
+    description: `We will expand to other products including gift cards and 
+    utility bills. Imagining using your Matic token to pay electricity bills`,
   },
   {
-    label: "Q2-2023, Expand to other countries",
-    description: `Try out different ad text to see what brings in the most customers,
-              and learn how to enhance your ads using features like ad extensions.
-              If you run into any problems with your ads, find out how to tell if
-              they're running and how to resolve approval issues.`,
+    label: "Q3-2023, Expand to other countries",
+    description: `The pilot stage of this project is Nigeria. We are looking 
+    to expanding to other countries in Africa like Ghana, Rwanda, etc`,
   },
   {
-    label: "Q3-2023, Ecommerce",
-    description: `Try out different ad text to see what brings in the most customers,
-              and learn how to enhance your ads using features like ad extensions.
-              If you run into any problems with your ads, find out how to tell if
-              they're running and how to resolve approval issues.`,
+    label: "Q4-2023, Ecommerce",
+    description: `Small businesses should be able to use our platform to 
+    swiftly carry out transactions with their customers.`,
   },
   {
     label: "Q1-2024, Virtual card",
-    description: `Try out different ad text to see what brings in the most customers,
-              and learn how to enhance your ads using features like ad extensions.
-              If you run into any problems with your ads, find out how to tell if
-              they're running and how to resolve approval issues.`,
+    description: `Creation and Management of virtual cards for local and 
+    foreign transactions.`,
   },
-  {
-    label: "Q4-2024, Build API’s to connect web2 apps",
-    description: `Try out different ad text to see what brings in the most customers,
-              and learn how to enhance your ads using features like ad extensions.
-              If you run into any problems with your ads, find out how to tell if
-              they're running and how to resolve approval issues.`,
-  },
+  // {
+  //   label: "Q4-2024, Build API’s to connect web2 apps",
+  //   description: ``,
+  // },
 ];
 
 type Props = {};
