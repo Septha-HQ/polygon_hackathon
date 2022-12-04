@@ -20,4 +20,7 @@ export type TxnContextType = {
     connectWallet: () => Promise<void>;
     disconnectWallet: () => Promise<void>;
     sendTxn: () => Promise<void>;
+    fetchTxn: any;
+    txnStatus: boolean,
+    setTxnStatus: Dispatch<SetStateAction<boolean>>;
 }

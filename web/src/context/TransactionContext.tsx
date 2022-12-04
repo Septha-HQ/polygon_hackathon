@@ -43,6 +43,7 @@ export const TxnProvider = ({ children }: TxnContextProviderProps) => {
   const [isCurrentNetwork, setIsCurrentNetwork] = useState(false);
   const [txn, setTxn] = useState<ITxn>(initialTxn)!;
   const [fetchedTxn, setFetchedTxn] = useState();
+  const [txnStatus, setTxnStatus] = useState(false)
 
   useEffect(() => {
     // check if a wallet is in the localStorage
@@ -123,6 +124,10 @@ export const TxnProvider = ({ children }: TxnContextProviderProps) => {
 
       await txnContract.pay(curr, amount, ref, cat, { value: _hex });
 
+      // Successful
+      // Change card
+      setTxnStatus(true)
+
       // go to transactions
     } catch (error) {
       console.log(error);
@@ -150,7 +155,8 @@ export const TxnProvider = ({ children }: TxnContextProviderProps) => {
 
       const txns = await txnContract.getTxn();
 
-      console.log(txns);
+      // console.log(txns);
+      setFetchedTxn(txns)
     } catch (error) {
       console.log(error);
     }
@@ -167,6 +173,9 @@ export const TxnProvider = ({ children }: TxnContextProviderProps) => {
         connectWallet,
         disconnectWallet,
         sendTxn,
+        fetchTxn,
+        txnStatus,
+        setTxnStatus
       }}
     >
       {children}

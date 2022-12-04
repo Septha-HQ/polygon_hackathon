@@ -27,7 +27,7 @@ const drawerWidth = 240;
 // const navItems = ["Verify", "Contact Us", "Connect Wallet"];
 
 const items = [
-  { name: "Verify", key: "verify", route: "/verify" },
+  // { name: "Verify", key: "verify", route: "/verify" },
   { name: "Contact us", key: "contact-us", route: "/contact" },
   //   "Connect Wallet",
 ];
