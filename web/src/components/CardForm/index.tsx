@@ -1,3 +1,5 @@
+import { ChangeEvent, useContext, useState } from "react";
+import Joi from "joi";
 import {
   Box,
   Button,
@@ -7,21 +9,91 @@ import {
   InputAdornment,
   InputLabel,
   MenuItem,
-  OutlinedInput,
   Select,
   TextField,
-  Typography,
 } from "@mui/material";
-import React, { useState } from "react";
-import { Txn } from "../../shared/interface";
+import { TxnContext } from "../../context/TransactionContext";
 
-const CardForm = (txn: Txn) => {
-  const countries = [
-    { name: "Nigeria", currency: "NGN", dialCode: "+234" },
-    { name: "Ghana", currency: "GHC", dialCode: "+234" },
-  ];
+const countries = [
+  { name: "Nigeria", currency: "NGN", dialCode: "+234" },
+  { name: "Ghana", currency: "GHC", dialCode: "+233" },
+];
 
-  const handleTxn = () => {};
+export const providers = [
+  { id: "1", name: "MTN", color: "#000000", bgcolor: "#FFCC00" },
+  { id: "2", name: "GLO", color: "#ffffff", bgcolor: "#006836" },
+  { id: "3", name: "Airtel", color: "#ffffff", bgcolor: "#AA0201" },
+  { id: "4", name: "Etisalat", color: "#ffffff", bgcolor: "#006847" },
+];
+
+const CardForm = () => {
+  const [countryDial, setCountryDial] = useState("+");
+  const [isValid, setIsValid] = useState(false);
+  const { isCurrentNetwork, txn, setTxn } = useContext(TxnContext)!;
+
+  const schema = Joi.object({
+    ref: Joi.string().required(),
+    amount: Joi.number().required(),
+    country: Joi.string().required(),
+    curr: Joi.string().required(),
+    provider: Joi.string().required(),
+    cat: Joi.number(),
+  });
+
+  const validate = () => {
+    const result = schema.validate(txn, { abortEarly: false });
+
+    setIsValid(result.error?false:true)
+  };
+
+  const handleCountry = (e: any) => {
+    const nex_txn = { ...txn };
+    const curr = e.target.value;
+
+    const country = countries.find((x) => x.currency == curr);
+
+    // set currency
+    nex_txn.curr = country?.currency!;
+
+    // set country
+    nex_txn.country = country?.name!;
+
+    // set countryDial
+    setCountryDial(country?.dialCode!);
+
+    setTxn({ ...nex_txn });
+
+    // update valid state
+    validate()
+  };
+
+  const handleProvider = (e: any) => {
+    const nex_txn = { ...txn };
+    const provider = e.target.value;
+
+    // set currency
+    nex_txn.provider = provider!;
+
+    setTxn({ ...nex_txn });
+
+    // update valid state
+    validate()
+  };
+
+  const handleText = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setTxn({ ...txn, [name]: value });
+
+    // update valid state
+    validate()
+  };
+
+  const submitTxn = () => {
+    validate()
+    console.log(txn);
+  };
+
   return (
     <Box>
       <Grid container spacing={2}>
@@ -31,10 +103,12 @@ const CardForm = (txn: Txn) => {
             <Select
               labelId="country-label"
               id="country"
-              value={txn.country}
+              value={txn.curr}
               label="Country"
-              // onChange={handleTxn}
+              name="country"
+              onChange={handleCountry}
               color="secondary"
+              disabled={!isCurrentNetwork}
             >
               {countries.map((country) => (
                 <MenuItem key={country.currency} value={country.currency}>
@@ -50,14 +124,15 @@ const CardForm = (txn: Txn) => {
             <Select
               labelId="country-label"
               id="country"
-              value={txn.country}
+              value={txn.provider}
               label="Country"
-              // onChange={handleTxn}
+              onChange={handleProvider}
               color="secondary"
+              disabled={!isCurrentNetwork}
             >
-              {countries.map((country) => (
-                <MenuItem key={country.currency} value={country.currency}>
-                  {country.name}
+              {providers.map((provider) => (
+                <MenuItem key={provider.id} value={provider.name}>
+                  {provider.name}
                 </MenuItem>
               ))}
             </Select>
@@ -70,9 +145,16 @@ const CardForm = (txn: Txn) => {
               label="Phone"
               id="outlined-start-adornment"
               placeholder="8*********"
+              name="ref"
+              type="number"
+              onChange={handleText}
+              disabled={!isCurrentNetwork}
+              color="secondary"
               InputProps={{
                 startAdornment: (
-                  <InputAdornment position="start">+234</InputAdornment>
+                  <InputAdornment position="start">
+                    {countryDial}
+                  </InputAdornment>
                 ),
               }}
             />
@@ -83,7 +165,16 @@ const CardForm = (txn: Txn) => {
         </Grid>
         <Grid item sm={12}>
           <FormControl fullWidth>
-            <TextField id="outlined-basic" label="Amount" variant="outlined" />
+            <TextField
+              id="outlined-basic"
+              label="Amount"
+              variant="outlined"
+              name="amount"
+              type="number"
+              onChange={handleText}
+              color="secondary"
+              disabled={!isCurrentNetwork}
+            />
           </FormControl>
         </Grid>
 
@@ -93,7 +184,8 @@ const CardForm = (txn: Txn) => {
             variant="contained"
             color="primary"
             sx={{ height: 50 }}
-            disabled
+            onClick={submitTxn}
+            disabled={!isCurrentNetwork || !isValid}
           >
             Top Up
           </Button>

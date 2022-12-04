@@ -2,7 +2,7 @@ import { useEffect, useState, createContext, ReactNode } from "react";
 import { ethers } from "ethers";
 
 import { contractABI, contractAddress } from "../utils/constants";
-import { TxnContextType } from "../interface/interface";
+import { ITxn, TxnContextType } from "../interface/interface";
 
 declare global {
   interface Window {
@@ -12,6 +12,15 @@ declare global {
 
 type TxnContextProviderProps = {
   children: ReactNode;
+};
+
+const initialTxn = {
+  country: "",
+  curr: "",
+  amount: 0,
+  ref: "",
+  cat: 0,
+  provider: ""
 };
 
 export const TxnContext = createContext<TxnContextType | null>(null);
@@ -30,6 +39,7 @@ export const TxnProvider = ({ children }: TxnContextProviderProps) => {
   const [connectedAccount, setConnectedAccount] = useState("");
   const [chainId, setChainId] = useState(0);
   const [isCurrentNetwork, setIsCurrentNetwork] = useState(false);
+  const [txn, setTxn] = useState<ITxn>(initialTxn)!;
 
   useEffect(() => {
     // check if a wallet is in the localStorage
@@ -98,6 +108,8 @@ export const TxnProvider = ({ children }: TxnContextProviderProps) => {
         isCurrentNetwork,
         connectedAccount,
         chainId,
+        txn,
+        setTxn,
         connectWallet,
         disconnectWallet,
       }}

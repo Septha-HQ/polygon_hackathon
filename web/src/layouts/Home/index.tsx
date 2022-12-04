@@ -1,22 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
 import { TxnContext } from "../../context/TransactionContext";
-import { Txn } from "../../shared/interface";
 import { Box, Button, Grid, Paper, Typography } from "@mui/material";
 import CardForm from "../../components/CardForm";
 import Roadmap from "../../components/Roadmap";
 import Waitlist from "../../components/Waitlist";
 import HomeIntro from "../../components/HomeIntro";
+import CardInit from "../../components/Card";
 
 type Props = {};
 
 const MUMBAI_CHAIN_ID = 80001;
-
-const initialTxn = {
-  country: "",
-  provider: "",
-  reference: "",
-  amount: 0,
-};
 
 const hashWalletAddress = (address: string) => {
   const first4 = address.slice(0, 7);
@@ -26,14 +19,10 @@ const hashWalletAddress = (address: string) => {
 };
 
 const Home = (props: Props) => {
-  const [txn, setTxn] = useState<Txn>(initialTxn);
 
   const { isCurrentNetwork, chainId, connectedAccount, connectWallet } =
     useContext(TxnContext)!;
 
-  useEffect(() => {
-    console.log(chainId);
-  }, [chainId]);
 
   return (
     <>
@@ -52,7 +41,7 @@ const Home = (props: Props) => {
         {/* Hero page */}
         <Grid container spacing={20}>
           <Grid item sm={12} md={6} sx={{ my: { lg: 5, xs: 0 }, pt: 0 }}>
-            {isCurrentNetwork?"":<HomeIntro />}
+            {isCurrentNetwork?<CardInit/>:<HomeIntro />}
           </Grid>
           <Grid item sm={12} md={6}>
             <Paper
@@ -61,11 +50,11 @@ const Home = (props: Props) => {
                 maxWidth: 500,
                 borderRadius: "20px",
                 color: "#ffffff",
-                background: "#ffffffaa",
+                background: isCurrentNetwork?"#ffffff":"#ffffffaa",
                 p: 7,
               }}
             >
-              <CardForm {...txn} />
+              <CardForm />
             </Paper>
           </Grid>
         </Grid>
