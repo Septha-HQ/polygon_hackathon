@@ -96,6 +96,7 @@ export const TxnProvider = ({ children }: TxnContextProviderProps) => {
 
   // Disconnect wallet
   const disconnectWallet = async () => {
+    // setCurrRate();
     setConnectedAccount("");
 
     // Save to localStorage
@@ -111,7 +112,26 @@ export const TxnProvider = ({ children }: TxnContextProviderProps) => {
 
       const { signer, txnContract } = getContract();
 
-      await txnContract.pay(curr, amount, ref, cat);
+      const { _hex } = await txnContract.amountToPay(curr, amount);
+
+      // console.log(_hex);
+
+      await txnContract.pay(curr, amount, ref, cat, { value: _hex });
+
+      // go to transactions
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const setCurrRate = async () => {
+    const _curr = "GHC";
+    try {
+      const { txnContract } = getContract();
+
+      await txnContract.setRate(_curr, 1410007869);
+
+      console.log(await txnContract.dollarRate(_curr));
     } catch (error) {
       console.log(error);
     }
