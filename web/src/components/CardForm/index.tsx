@@ -43,7 +43,7 @@ const CardForm = () => {
   const validate = () => {
     const result = schema.validate(txn, { abortEarly: false });
 
-    setIsValid(result.error?false:true)
+    setIsValid(result.error ? false : true);
   };
 
   const handleCountry = (e: any) => {
@@ -64,7 +64,7 @@ const CardForm = () => {
     setTxn({ ...nex_txn });
 
     // update valid state
-    validate()
+    validate();
   };
 
   const handleProvider = (e: any) => {
@@ -77,7 +77,7 @@ const CardForm = () => {
     setTxn({ ...nex_txn });
 
     // update valid state
-    validate()
+    validate();
   };
 
   const handleText = (e: ChangeEvent<HTMLInputElement>) => {
@@ -86,7 +86,7 @@ const CardForm = () => {
     setTxn({ ...txn, [name]: value });
 
     // update valid state
-    validate()
+    validate();
   };
 
   // const submitTxn = () => {

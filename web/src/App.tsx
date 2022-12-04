@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {BrowserRouter as Router, Routes, Route} from "react-router-dom"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.scss";
 import Home from "./layouts/Home";
 import Navbar from "./components/Navbar";
@@ -8,6 +8,7 @@ import { Container } from "@mui/material";
 import leftSpiral from "./assets/left-spiral.png";
 import rightSpiral from "./assets/right-spiral.png";
 import Verify from "./layouts/Verify";
+import PrivateRoute from "./utils/PrivateRoute";
 
 function App() {
   return (
@@ -35,10 +36,12 @@ function App() {
       />
       <Container maxWidth="xl">
         <Router>
-        <Navbar />
+          <Navbar />
           <Routes>
-            <Route path="/" element={<Home />}/>
-            <Route path="/verify" element={<Verify />}/>
+            <Route element={<PrivateRoute />}>
+              <Route path="/verify" element={<Verify />} />
+            </Route>
+            <Route path="/" element={<Home />} />
           </Routes>
         </Router>
       </Container>

@@ -42,6 +42,7 @@ export const TxnProvider = ({ children }: TxnContextProviderProps) => {
   const [chainId, setChainId] = useState(0);
   const [isCurrentNetwork, setIsCurrentNetwork] = useState(false);
   const [txn, setTxn] = useState<ITxn>(initialTxn)!;
+  const [fetchedTxn, setFetchedTxn] = useState();
 
   useEffect(() => {
     // check if a wallet is in the localStorage
@@ -76,6 +77,9 @@ export const TxnProvider = ({ children }: TxnContextProviderProps) => {
     setIsCurrentNetwork(
       accounts[0] ? (chainId === MUMBAI_CHAIN_ID ? true : false) : false
     );
+
+
+    fetchTxn()
   };
 
   // Connect wallet
@@ -105,6 +109,7 @@ export const TxnProvider = ({ children }: TxnContextProviderProps) => {
     window.location.href = "/";
   };
 
+  // Send transactions
   const sendTxn = async () => {
     try {
       console.log(txn);
@@ -124,6 +129,7 @@ export const TxnProvider = ({ children }: TxnContextProviderProps) => {
     }
   };
 
+  // For owner to set currency rate
   const setCurrRate = async () => {
     const _curr = "GHC";
     try {
@@ -132,6 +138,19 @@ export const TxnProvider = ({ children }: TxnContextProviderProps) => {
       await txnContract.setRate(_curr, 1410007869);
 
       console.log(await txnContract.dollarRate(_curr));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Fetch transaction for a user
+  const fetchTxn = async () => {
+    try {
+      const { txnContract } = getContract();
+
+      const txns = await txnContract.getTxn();
+
+      console.log(txns);
     } catch (error) {
       console.log(error);
     }

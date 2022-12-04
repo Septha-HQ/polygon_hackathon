@@ -20,21 +20,25 @@ interface Props {
   // window?: () => Window;
 }
 
-const MUMBAI_CHAIN_ID = 80001;
 const feedback_url =
   "https://docs.google.com/forms/d/e/1FAIpQLSeOHUwRsJupAMCfCekRLrXHM2yuMrPvjSdrVPuqo3l1QHl_dA/viewform?usp=sf_link";
 
 const drawerWidth = 240;
 // const navItems = ["Verify", "Contact Us", "Connect Wallet"];
-const navItems = [
+
+const items = [
   { name: "Verify", key: "verify", route: "/verify" },
   { name: "Contact us", key: "contact-us", route: "/contact" },
   //   "Connect Wallet",
 ];
 
+
 const Navbar = (props: Props) => {
   const { isCurrentNetwork, connectWallet, disconnectWallet } =
     useContext(TxnContext)!;
+
+  
+const navItems = isCurrentNetwork?items:items.filter(item=>item.name!="Verify")
   // const { window } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
 
