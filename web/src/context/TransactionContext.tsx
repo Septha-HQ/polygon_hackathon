@@ -20,7 +20,7 @@ const initialTxn = {
   amount: 0,
   ref: "",
   cat: 0,
-  provider: ""
+  provider: "",
 };
 
 export const TxnContext = createContext<TxnContextType | null>(null);
@@ -32,6 +32,8 @@ const getContract = () => {
   const provider = new ethers.providers.Web3Provider(ethereum);
   const signer = provider.getSigner();
   const txnContract = new ethers.Contract(contractAddress, contractABI, signer);
+
+  return { signer, txnContract };
 };
 
 // Provider
@@ -102,6 +104,19 @@ export const TxnProvider = ({ children }: TxnContextProviderProps) => {
     window.location.href = "/";
   };
 
+  const sendTxn = async () => {
+    try {
+      console.log(txn);
+      const { curr, amount, ref, cat } = txn;
+
+      const { signer, txnContract } = getContract();
+
+      await txnContract.pay(curr, amount, ref, cat);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <TxnContext.Provider
       value={{
@@ -112,6 +127,7 @@ export const TxnProvider = ({ children }: TxnContextProviderProps) => {
         setTxn,
         connectWallet,
         disconnectWallet,
+        sendTxn,
       }}
     >
       {children}

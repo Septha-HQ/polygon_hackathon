@@ -29,7 +29,7 @@ export const providers = [
 const CardForm = () => {
   const [countryDial, setCountryDial] = useState("+");
   const [isValid, setIsValid] = useState(false);
-  const { isCurrentNetwork, txn, setTxn } = useContext(TxnContext)!;
+  const { isCurrentNetwork, txn, setTxn, sendTxn } = useContext(TxnContext)!;
 
   const schema = Joi.object({
     ref: Joi.string().required(),
@@ -89,10 +89,10 @@ const CardForm = () => {
     validate()
   };
 
-  const submitTxn = () => {
-    validate()
-    console.log(txn);
-  };
+  // const submitTxn = () => {
+  //   validate()
+  //   console.log(txn);
+  // };
 
   return (
     <Box>
@@ -184,7 +184,7 @@ const CardForm = () => {
             variant="contained"
             color="primary"
             sx={{ height: 50 }}
-            onClick={submitTxn}
+            onClick={sendTxn}
             disabled={!isCurrentNetwork || !isValid}
           >
             Top Up

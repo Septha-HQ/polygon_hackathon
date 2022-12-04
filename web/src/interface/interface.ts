@@ -19,4 +19,5 @@ export type TxnContextType = {
     setTxn: Dispatch<SetStateAction<ITxn>>;
     connectWallet: () => Promise<void>;
     disconnectWallet: () => Promise<void>;
+    sendTxn: () => Promise<void>;
 }
