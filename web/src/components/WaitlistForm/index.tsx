@@ -13,7 +13,6 @@ import {
     Typography,
   } from "@mui/material";
   import React, { useState } from "react";
-  import { Txn } from "../../shared/interface";
   
   const WaitListForm = () => {
   
