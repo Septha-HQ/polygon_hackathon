@@ -21,7 +21,7 @@ This is a test project on the Mumbai testnet on the Polygon Network. The project
 - [Smart contract](https://github.com/Septha-HQ/polygon_hackathon/tree/main/smart_contract)
 - [Backend](https://github.com/Septha-HQ/polygon_hackathon/tree/main/backend)
 
-#### Frontend
+### Frontend
 The user interface to interact with the smart contract in a fun way. The web application is built with ReactJS.
 - Reactjs
 - Context
@@ -30,9 +30,9 @@ The user interface to interact with the smart contract in a fun way. The web app
 - Vite
 - Material UI (MUI)
 
-#### Smart contract
+### Smart contract
 
-The project is built on the Mumbai Network (A polygon test net). Some of the functions include:
+The project is built on the Mumbai Network (polygon testnet). Some of the functions include:
 
 - Check for currency price
 - Pay for transaction
@@ -44,13 +44,14 @@ Technology used are:
 
 - Solidity
 - Hardhat
+- Ethers Js
 - Chainlink pricefeed
 
 [Test](https://github.com/Septha-HQ/polygon_hackathon/tree/main/smart_contract/coverage): The smart contract code has a 100% test coverage that cover most scenerio for the features
 
-#### Backend
+### Backend
 
-The backend is to connect the application to 3rd party service providers and it is built with Django. This part of the project was not implemented in the Polygon Hackathon.
+The backend is to connect the application to 3rd party service providers and it is built with Django. This part of the project was not implemented in the Polygon Hackathon because its on a test network.
 
 - Python
 - Django
